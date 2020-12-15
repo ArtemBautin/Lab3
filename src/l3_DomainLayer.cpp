@@ -8,7 +8,8 @@ using namespace std;
 Date::Date(int y, int m, int d)
     : _year(y), _month(m), _day(d)
 {
-    assert(invariant());
+    if (!invariant())
+        throw Exception("Date::Date(int y, int m, int d)","invariant");
 }
 
 Date::Date(string str)
@@ -35,7 +36,8 @@ Date::Date(string str)
     _month = stoi(ms);
     _day = stoi(ds);
 
-    assert(invariant());
+    if (!invariant())
+        throw Exception("Date::Date(string str)","invariant");
 }
 
 bool Date::operator <(const Date &d2) const
@@ -61,7 +63,8 @@ int Date::diffInMonths(const Date &d2) const
 ShelfLife::ShelfLife(Date d)
     : _date(d)
 {
-    assert(invariant());
+    if (!invariant())
+        throw Exception("ShelfLife::ShelfLife","invariant");
 }
 
 
@@ -72,7 +75,8 @@ AutoPart::AutoPart(const std::string & auto_part_name, const std::string & car_b
     , _cost(cost)
     , _availability(availability)
 {
-    assert(invariant());
+    if (!invariant())
+        throw Exception("AutoPart::AutoPart 1","invariant");
 }
 
 AutoPart::AutoPart(const string &auto_part_name, const string &car_brand, string car_model, uint16_t cost, std::string availability,
@@ -84,7 +88,8 @@ AutoPart::AutoPart(const string &auto_part_name, const string &car_brand, string
     , _availability(availability)
     , _shelf_life_story(shelf_life_story)
 {
-    assert(invariant());
+    if (!invariant())
+        throw Exception("AutoPart::AutoPart 2","invariant");
 }
 
 bool   AutoPart::write(ostream& os)

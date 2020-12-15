@@ -29,8 +29,10 @@ public:
         : _out(out)
     {}
 
-    bool performCommand(const std::vector<std::string> & args);
-
+    bool performCommand(int session_id, const std::vector<std::string> & args);
+protected:
+    void error(LogSession &log, std::string text);
+    
 private:
     const IOutput & _out;
     ItemCollector   _col;

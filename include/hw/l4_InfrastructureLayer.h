@@ -7,8 +7,9 @@
 
 #include <string>
 #include <vector>
-#include <cassert>
 #include <memory>
+#include <exception>
+#include <chrono>
 
 #include <fstream>
 
@@ -71,6 +72,48 @@ public:
     bool loadCollection(const std::string file_name);
 
     bool saveCollection(const std::string file_name) const;
+};
+
+class Exception : public std::exception
+{
+    std::string _where;
+    std::string _what;
+
+public:
+    Exception(std::string where, std::string what)
+        : std::exception()
+        , _where(where)
+        , _what(what)
+    {}
+
+    virtual ~Exception() override {}
+
+    const std::string & where() const noexcept { return _where; }
+
+    virtual const char* what() const noexcept override { return _what.c_str(); }
+};
+
+class LogSession
+{
+    int                                                         _session_id;
+    std::ofstream                                               _log_file;
+    std::chrono::time_point<std::chrono::high_resolution_clock> _session_start;
+
+    void write(std::string level, std::string text);
+
+public:
+    LogSession() = delete;
+
+    LogSession(int session_id, std::string session_name);
+
+    virtual ~LogSession();
+
+    bool good() const { return _log_file.good(); }
+
+    void information(std::string text);
+    void error(std::string text);
+
+    static int generateSessionID();
 };
 
 #endif // HW_L4_INFRASTRUCTURE_LAYER_H

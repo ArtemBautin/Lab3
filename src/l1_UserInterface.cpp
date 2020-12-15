@@ -28,6 +28,7 @@ int main(int , char **)
 {
     TerminalOutput out;
     Application    app(out);
+    int            session_id = LogSession::generateSessionID();
 
     cout << "Введите команду для работы с карточкой 'Автозапчасть': " << endl;
     cout << "l - Загрузить данные из хранилища;" << endl;
@@ -54,7 +55,7 @@ int main(int , char **)
             args.emplace_back(str);
         }
 
-        if (!app.performCommand(args))
+        if (!app.performCommand(session_id, args))
             return 1;
     }
 
